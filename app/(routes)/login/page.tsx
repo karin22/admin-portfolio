@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Avatar,
   Button,
@@ -10,10 +9,15 @@ import {
 } from "@mui/material";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import animationLogin from "@/app/lottie/login.json";
+import animationLogin from "@/app/assets/lottie/login.json";
 import Lottie from "lottie-react";
+import { useAppDispatch } from "@/app/store/hook";
+import { handleOnOpenError } from "@/app/store/alert";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -21,6 +25,8 @@ export default function LoginPage() {
       email: data.get("email"),
       password: data.get("password"),
     });
+    dispatch(handleOnOpenError("Incorrect"));
+    router.replace("/personal");
   };
   return (
     <Container
@@ -71,9 +77,7 @@ export default function LoginPage() {
               id="password"
               autoComplete="current-password"
             />
-            <Typography component="h4" align="center" color="error">
-              ** Incorrect **{" "}
-            </Typography>
+
             <Button
               type="submit"
               fullWidth
