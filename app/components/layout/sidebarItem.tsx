@@ -13,24 +13,31 @@ import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import ThinWrapperDialog from "@/app/components/thinWrapper/dialog";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useState, useCallback } from "react";
 
 export default function LayoutSidebarItem() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
   const menus = [
-    { name: "Personal", icon: <AccountCircleIcon /> },
-    { name: "Experience", icon: <CurrencyExchangeIcon /> },
-    { name: "Education", icon: <SchoolIcon /> },
-    { name: "Skill", icon: <HtmlIcon /> },
-    { name: "Contact", icon: <RecentActorsIcon /> },
+    { name: "Personal", link: "personal", icon: <AccountCircleIcon /> },
+    { name: "Experience", link: "experience", icon: <CurrencyExchangeIcon /> },
+    { name: "Education", link: "education", icon: <SchoolIcon /> },
+    { name: "Skill", link: "skill", icon: <HtmlIcon /> },
+    { name: "Contact", link: "contact", icon: <RecentActorsIcon /> },
   ];
 
   const onClose = useCallback(() => {
     setOpen(false);
   }, []);
+
+  const linkToPage = useCallback(
+    (link: string) => {
+      router.push(link);
+    },
+    [router]
+  );
 
   const onSubmit = useCallback(() => {
     router.replace("/login");
@@ -42,7 +49,11 @@ export default function LayoutSidebarItem() {
       <Toolbar />
       <List sx={{ flexGrow: 1 }}>
         {menus.map((menu) => (
-          <ListItem key={menu.name} disablePadding>
+          <ListItem
+            key={menu.name}
+            disablePadding
+            onClick={() => linkToPage(menu.link)}
+          >
             <ListItemButton>
               <ListItemIcon>{menu.icon}</ListItemIcon>
               <ListItemText secondary={menu.name} />

@@ -1,0 +1,12 @@
+.box {
+  position: relative;
+  width: fit-content;
+  margin: auto;
+  cursor: pointer;
+}
+
+.icon {
+  position: absolute;
+  bottom: 0;
+  right: -8px;
+}
